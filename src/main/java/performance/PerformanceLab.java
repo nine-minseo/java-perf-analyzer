@@ -1,8 +1,24 @@
 package performance;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class PerformanceLab {
     public static void main(String[] args) {
-        printMainMenu();
+        Scanner scanner = new Scanner(System.in);
+
+        while(true){
+            printMainMenu();
+            try {
+                int userChoice = scanner.nextInt();
+
+                if(userChoice == 0){
+                    System.out.println("프로그램을 종료합니다.");
+                    break;
+                }
+            } catch (InputMismatchException e) {
+            }
+        }
     }
 
     public static void printMainMenu() {
