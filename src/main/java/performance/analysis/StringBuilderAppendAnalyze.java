@@ -15,6 +15,11 @@ public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
     public AnalyzeResult runAnalyze(long iterations) {
         long startTime = System.nanoTime();
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (long i = 0; i < iterations; i++) {
+            stringBuilder.append("a");
+        }
+
         long durationNano = 0;
 
         return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
