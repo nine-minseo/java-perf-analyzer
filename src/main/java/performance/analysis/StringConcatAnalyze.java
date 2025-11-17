@@ -23,7 +23,7 @@ public class StringConcatAnalyze implements PerformanceAnalyze {
 
         long endTime = System.nanoTime();
 
-        long durationNano = 0;
+        long durationNano = endTime - startTime;
 
         return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
     }
