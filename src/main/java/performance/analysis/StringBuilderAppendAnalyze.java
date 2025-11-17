@@ -20,7 +20,9 @@ public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
             stringBuilder.append("a");
         }
 
-        long durationNano = 0;
+        long endTime = System.nanoTime();
+
+        long durationNano = endTime - startTime;
 
         return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
     }
