@@ -15,6 +15,12 @@ public class StringConcatAnalyze implements PerformanceAnalyze {
     public AnalyzeResult runAnalyze(long iterations) {
         long startTime = System.nanoTime();
 
+        String emptyString = "";
+
+        for (long i = 0; i < iterations; i++) {
+            emptyString += "a";
+        }
+
         long durationNano = 0;
 
         return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
