@@ -13,6 +13,8 @@ public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
 
     @Override
     public AnalyzeResult runAnalyze(long iterations) {
+        long startTime = System.nanoTime();
+
         long durationNano = 0;
 
         return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
