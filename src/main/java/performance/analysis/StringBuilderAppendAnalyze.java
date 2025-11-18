@@ -4,7 +4,7 @@ import performance.AnalyzeResult;
 import performance.PerformanceAnalyze;
 
 public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
-    private static final String ANALYZE_NAME = "StringBuilder 추가";
+    private static final String ANALYZE_NAME = "StringBuilder (.append)";
 
     @Override
     public String getAnalyzeName() {
