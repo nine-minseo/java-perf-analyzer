@@ -45,7 +45,7 @@ public class AnalyzeController {
     }
 
     private void runStringAnalyzes() {
-        outputView.printAnalyzeStart("1. String: '+' vs. StringBuilder");
+        outputView.printAnalyzeStart("1. String (+) vs. StringBuilder");
 
         PerformanceAnalyze slowAnalyze = new StringConcatAnalyze();
         AnalyzeResult slowResult = slowAnalyze.runAnalyze(DEFAULT_ITERATIONS);
