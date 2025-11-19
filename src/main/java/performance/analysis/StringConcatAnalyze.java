@@ -1,10 +1,10 @@
 package performance.analysis;
 
-import performance.AnalyzeResult;
-import performance.PerformanceAnalyze;
+import performance.BasePerformanceAnalyze;
 
-public class StringConcatAnalyze implements PerformanceAnalyze {
+public class StringConcatAnalyze extends BasePerformanceAnalyze {
     private static final String ANALYZE_NAME = "String 덧셈";
+    private static final String APPEND_STRING = "a";
 
     @Override
     public String getAnalyzeName() {
@@ -12,19 +12,12 @@ public class StringConcatAnalyze implements PerformanceAnalyze {
     }
 
     @Override
-    public AnalyzeResult runAnalyze(long iterations) {
-        long startTime = System.nanoTime();
-
+    protected void execute(long iterations) {
         String emptyString = "";
 
         for (long i = 0; i < iterations; i++) {
-            emptyString += "a";
+            emptyString += APPEND_STRING;
         }
-
-        long endTime = System.nanoTime();
-
-        long durationNano = endTime - startTime;
-
-        return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
     }
 }
+
