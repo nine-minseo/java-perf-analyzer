@@ -1,7 +1,5 @@
 package performance.view;
 
-import performance.AnalyzeResult;
-
 public class OutputView {
     public void printMainMenu() {
         System.out.println("\n========================================");
@@ -27,7 +25,7 @@ public class OutputView {
         System.out.println("[START] " + title);
     }
 
-    public void printAnalyzeResult(AnalyzeResult result) {
-        System.out.println("[RESULT] " + result.getResultSummary());
+    public void printAnalyzeResult(String formattedResult) {
+        System.out.println("[RESULT] " + formattedResult);
     }
 }

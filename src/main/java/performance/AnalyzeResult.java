@@ -26,9 +26,4 @@ public class AnalyzeResult {
     public double getDurationMs() {
         return durationNano / 1_000_000.0;
     }
-
-    public String getResultSummary() {
-        return String.format("%s: %,d회 반복, %.4f ms 소요",
-                analyzeName, iterations, getDurationMs());
-    }
 }

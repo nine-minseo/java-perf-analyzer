@@ -10,6 +10,7 @@ import performance.analysis.StringBuilderAppendAnalyze;
 import performance.analysis.StringConcatAnalyze;
 import performance.view.InputView;
 import performance.view.OutputView;
+import performance.view.ResultFormatter;
 
 public class AnalyzeController {
     private static final long DEFAULT_ITERATIONS = 1_000_000L;
@@ -17,10 +18,12 @@ public class AnalyzeController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<Integer, Runnable> menuActions;
+    private final ResultFormatter formatter;
 
-    public AnalyzeController(InputView inputView, OutputView outputView) {
+    public AnalyzeController(InputView inputView, OutputView outputView, ResultFormatter formatter) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.formatter = formatter;
         this.menuActions = new HashMap<>();
         menuActions.put(1, this::runStringAnalyzes);
     }
@@ -49,10 +52,12 @@ public class AnalyzeController {
 
         PerformanceAnalyze slowAnalyze = new StringConcatAnalyze();
         AnalyzeResult slowResult = slowAnalyze.runAnalyze(DEFAULT_ITERATIONS);
-        outputView.printAnalyzeResult(slowResult);
+        String formattedSlowResult = formatter.formatSingleResult(slowResult);
+        outputView.printAnalyzeResult(formattedSlowResult);
 
         PerformanceAnalyze fastAnalyze = new StringBuilderAppendAnalyze();
         AnalyzeResult fastResult = fastAnalyze.runAnalyze(DEFAULT_ITERATIONS);
-        outputView.printAnalyzeResult(fastResult);
+        String formattedFastResult = formatter.formatSingleResult(fastResult);
+        outputView.printAnalyzeResult(formattedFastResult);
     }
 }
