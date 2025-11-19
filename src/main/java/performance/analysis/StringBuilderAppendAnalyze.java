@@ -1,10 +1,10 @@
 package performance.analysis;
 
-import performance.AnalyzeResult;
-import performance.PerformanceAnalyze;
+import performance.BasePerformanceAnalyze;
 
-public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
+public class StringBuilderAppendAnalyze extends BasePerformanceAnalyze {
     private static final String ANALYZE_NAME = "StringBuilder (.append)";
+    private static final String APPEND_STRING = "a";
 
     @Override
     public String getAnalyzeName() {
@@ -12,18 +12,11 @@ public class StringBuilderAppendAnalyze implements PerformanceAnalyze {
     }
 
     @Override
-    public AnalyzeResult runAnalyze(long iterations) {
-        long startTime = System.nanoTime();
-
+    protected void execute(long iterations) {
         StringBuilder stringBuilder = new StringBuilder();
+
         for (long i = 0; i < iterations; i++) {
-            stringBuilder.append("a");
+            stringBuilder.append(APPEND_STRING);
         }
-
-        long endTime = System.nanoTime();
-
-        long durationNano = endTime - startTime;
-
-        return new AnalyzeResult(ANALYZE_NAME, durationNano, iterations);
     }
 }
