@@ -7,7 +7,9 @@ public class OutputView {
         System.out.println("========================================");
         System.out.println("분석할 항목의 번호를 입력하세요.");
         System.out.println("----------------------------------------");
-        System.out.println("1. String (+) vs. StringBuilder");
+        System.out.println("1. String 연결 성능 비교 (String vs StringBuilder)");
+        System.out.println("2. List 중간 삽입 성능 비교 (ArrayList vs LinkedList)");
+        System.out.println("3. List 순차 삽입 성능 비교 (ArrayList vs LinkedList)");
         System.out.println("0. 종료");
         System.out.println("----------------------------------------");
         System.out.print("번호 선택: ");
