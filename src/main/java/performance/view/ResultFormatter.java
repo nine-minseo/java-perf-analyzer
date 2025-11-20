@@ -1,6 +1,6 @@
 package performance.view;
 
-import performance.AnalyzeResult;
+import performance.model.AnalyzeResult;
 
 public class ResultFormatter {
     public String formatSingleResult(AnalyzeResult result) {

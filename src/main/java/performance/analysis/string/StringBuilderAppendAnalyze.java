@@ -1,6 +1,6 @@
-package performance.analysis;
+package performance.analysis.string;
 
-import performance.BasePerformanceAnalyze;
+import performance.model.BasePerformanceAnalyze;
 
 public class StringBuilderAppendAnalyze extends BasePerformanceAnalyze {
     private static final String ANALYZE_NAME = "StringBuilder (.append)";

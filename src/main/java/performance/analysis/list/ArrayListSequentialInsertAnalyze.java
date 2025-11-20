@@ -1,11 +1,11 @@
-package performance.analysis;
+package performance.analysis.list;
 
 import java.util.ArrayList;
 import java.util.List;
-import performance.BasePerformanceAnalyze;
+import performance.model.BasePerformanceAnalyze;
 
-public class ArrayListMiddleInsertAnalyze extends BasePerformanceAnalyze {
-    private static final String ANALYZE_NAME = "ArrayList 중간 삽입";
+public class ArrayListSequentialInsertAnalyze extends BasePerformanceAnalyze {
+    private static final String ANALYZE_NAME = "ArrayList 순차 삽입";
 
     @Override
     public String getAnalyzeName() {
@@ -17,7 +17,7 @@ public class ArrayListMiddleInsertAnalyze extends BasePerformanceAnalyze {
         List<Long> list = new ArrayList<>();
 
         for (long i = 0; i < iterations; i++) {
-            list.add(list.size() / 2, i);
+            list.add(i);
         }
     }
 }

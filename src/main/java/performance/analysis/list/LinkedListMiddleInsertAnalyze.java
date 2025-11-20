@@ -1,8 +1,8 @@
-package performance.analysis;
+package performance.analysis.list;
 
 import java.util.LinkedList;
 import java.util.List;
-import performance.BasePerformanceAnalyze;
+import performance.model.BasePerformanceAnalyze;
 
 public class LinkedListMiddleInsertAnalyze extends BasePerformanceAnalyze {
     private static final String ANALYZE_NAME = "LinkedList 중간 삽입";

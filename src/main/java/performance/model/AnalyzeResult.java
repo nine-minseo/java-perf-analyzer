@@ -1,4 +1,4 @@
-package performance;
+package performance.model;
 
 public class AnalyzeResult {
     private final String analyzeName;

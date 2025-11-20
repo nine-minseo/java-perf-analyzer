@@ -1,4 +1,4 @@
-package performance;
+package performance.model;
 
 public abstract class BasePerformanceAnalyze implements PerformanceAnalyze {
     private static final int WARM_UP_ITERATIONS = 1_000;

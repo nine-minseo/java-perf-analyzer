@@ -1,4 +1,4 @@
-package performance;
+package performance.model;
 
 public interface PerformanceAnalyze {
     String getAnalyzeName();
