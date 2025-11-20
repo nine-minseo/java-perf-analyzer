@@ -4,8 +4,10 @@ import performance.AnalyzeResult;
 
 public class ResultFormatter {
     public String formatSingleResult(AnalyzeResult result) {
-        return String.format("%s: %,d회 반복, %.4f ms 소요",
-                result.getAnalyzeName(), result.getIterations(), result.getDurationMs());
+        String timeString = formatTime(result.getDurationMs());
+
+        return String.format("%s: %,d회 반복, %s 소요",
+                result.getAnalyzeName(), result.getIterations(), timeString);
     }
 
     public String formatComparison(AnalyzeResult result1, AnalyzeResult result2) {
@@ -23,5 +25,12 @@ public class ResultFormatter {
 
         return String.format("[분석 결과] %s 방식이 %s 방식보다 약 %.2f배 더 빠릅니다.",
                 fast.getAnalyzeName(), slow.getAnalyzeName(), multiple);
+    }
+
+    private String formatTime(double durationMs) {
+        if (durationMs >= 1000) {
+            return String.format("%.4f s", durationMs / 1000.0);
+        }
+        return String.format("%.4f ms", durationMs);
     }
 }
