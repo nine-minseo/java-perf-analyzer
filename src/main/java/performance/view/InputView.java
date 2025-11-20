@@ -10,6 +10,10 @@ public class InputView {
     }
 
     public int readMenuChoice() {
+        if (!scanner.hasNextLine()) {
+            throw new IllegalStateException("입력 스트림이 종료되었습니다.");
+        }
+
         String input = scanner.nextLine().trim();
 
         if (input.isEmpty()) {

@@ -59,6 +59,9 @@ public class AnalyzeController {
                 action.run();
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
+            } catch (IllegalStateException e) {
+                outputView.printError("입력이 강제로 종료되었습니다. 프로그램을 종료합니다.");
+                break;
             } catch (Exception e) {
                 outputView.printError("알 수 없는 오류가 발생했습니다: " + e.getMessage());
             }
