@@ -52,8 +52,15 @@ public class AnalyzeController {
                 }
 
                 Runnable action = menuActions.get(userChoice);
+                if (action == null) {
+                    outputView.printError("존재하지 않는 메뉴 번호입니다. 다시 선택해주세요.");
+                    continue;
+                }
                 action.run();
-            } catch (InputMismatchException e) {
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            } catch (Exception e) {
+                outputView.printError("알 수 없는 오류가 발생했습니다: " + e.getMessage());
             }
         }
         inputView.close();
