@@ -61,25 +61,34 @@ public class AnalyzeController {
 
     private void runStringAnalyzes() {
         outputView.printAnalyzeStart("1. String (+) vs. StringBuilder");
-        executeAndPrint(new StringConcatAnalyze(), DEFAULT_ITERATIONS);
-        executeAndPrint(new StringBuilderAppendAnalyze(), DEFAULT_ITERATIONS);
+        AnalyzeResult result1 = executeAndPrint(new StringConcatAnalyze(), DEFAULT_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new StringBuilderAppendAnalyze(), DEFAULT_ITERATIONS);
+        printComparison(result1, result2);
     }
 
     private void runListMiddleInsertAnalyzes() {
         outputView.printAnalyzeStart("2. ArrayList vs. LinkedList (중간 삽입)");
-        executeAndPrint(new ArrayListMiddleInsertAnalyze(), LIST_ITERATIONS);
-        executeAndPrint(new LinkedListMiddleInsertAnalyze(), LIST_ITERATIONS);
+        AnalyzeResult result1 = executeAndPrint(new ArrayListMiddleInsertAnalyze(), LIST_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new LinkedListMiddleInsertAnalyze(), LIST_ITERATIONS);
+        printComparison(result1, result2);
     }
 
     private void runListSequentialInsertAnalyzes() {
         outputView.printAnalyzeStart("3. ArrayList vs. LinkedList (순차 삽입)");
-        executeAndPrint(new LinkedListSequentialInsertAnalyze(), LIST_ITERATIONS);
-        executeAndPrint(new ArrayListSequentialInsertAnalyze(), LIST_ITERATIONS);
+        AnalyzeResult result1 = executeAndPrint(new LinkedListSequentialInsertAnalyze(), LIST_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new ArrayListSequentialInsertAnalyze(), LIST_ITERATIONS);
+        printComparison(result1, result2);
     }
 
-    private void executeAndPrint(PerformanceAnalyze analyze, long iterations) {
+    private AnalyzeResult executeAndPrint(PerformanceAnalyze analyze, long iterations) {
         AnalyzeResult result = analyze.runAnalyze(iterations);
         String formattedResult = formatter.formatSingleResult(result);
         outputView.printAnalyzeResult(formattedResult);
+        return result;
+    }
+
+    private void printComparison(AnalyzeResult result1, AnalyzeResult result2) {
+        String comparison = formatter.formatComparison(result1, result2);
+        outputView.printAnalyzeResult(comparison);
     }
 }
