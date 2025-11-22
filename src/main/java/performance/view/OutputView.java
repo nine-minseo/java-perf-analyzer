@@ -13,6 +13,7 @@ public class OutputView {
         System.out.println("4. Stream 반복 성능 비교 (Stream vs For-loop)");
         System.out.println("5. 요소 포함 확인 성능 비교 (ArrayList vs HashSet)");
         System.out.println("6. 배열 대량 복사 성능 비교 (For Loop vs System.arraycopy)");
+        System.out.println("7. Map Key 조회 성능 비교 (TreeMap vs HashMap)");
         System.out.println("0. 종료");
         System.out.println("----------------------------------------");
         System.out.print("번호 선택: ");
