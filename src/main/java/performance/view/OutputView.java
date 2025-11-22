@@ -11,6 +11,7 @@ public class OutputView {
         System.out.println("2. List 중간 삽입 성능 비교 (ArrayList vs LinkedList)");
         System.out.println("3. List 순차 삽입 성능 비교 (ArrayList vs LinkedList)");
         System.out.println("4. Stream 반복 성능 비교 (Stream vs For-loop)");
+        System.out.println("5. 요소 포함 확인 성능 비교 (ArrayList vs HashSet)");
         System.out.println("0. 종료");
         System.out.println("----------------------------------------");
         System.out.print("번호 선택: ");

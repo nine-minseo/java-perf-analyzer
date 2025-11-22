@@ -3,6 +3,8 @@ package performance.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import performance.analysis.collection.ArrayListContainsAnalyze;
+import performance.analysis.collection.HashSetContainsAnalyze;
 import performance.analysis.stream.EnhancedForLoopAnalyze;
 import performance.analysis.stream.StreamForEachAnalyze;
 import performance.model.AnalyzeResult;
@@ -21,6 +23,7 @@ public class AnalyzeController {
     private static final int DEFAULT_ITERATIONS = 50_000;
     private static final int LIST_ITERATIONS = 100_000;
     private static final int STREAM_ITERATIONS = 100_000;
+    private static final int SEARCH_ITERATIONS = 50_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -41,6 +44,7 @@ public class AnalyzeController {
         menuActions.put(2, this::runListMiddleInsertAnalyzes);
         menuActions.put(3, this::runListSequentialInsertAnalyzes);
         menuActions.put(4, this::runStreamAnalyzes);
+        menuActions.put(5, this::runCollectionContainsAnalyzes);
     }
 
     public void run() {
@@ -97,6 +101,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("4. Stream.forEach vs. Enhanced For Loop");
         AnalyzeResult result1 = executeAndPrint(new StreamForEachAnalyze(), STREAM_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new EnhancedForLoopAnalyze(), STREAM_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runCollectionContainsAnalyzes() {
+        outputView.printAnalyzeStart("5. ArrayList.contains vs. HashSet.contains");
+        AnalyzeResult result1 = executeAndPrint(new ArrayListContainsAnalyze(), SEARCH_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new HashSetContainsAnalyze(), SEARCH_ITERATIONS);
         printComparison(result1, result2);
     }
 
