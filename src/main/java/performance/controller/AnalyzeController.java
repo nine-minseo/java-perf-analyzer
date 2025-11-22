@@ -3,6 +3,8 @@ package performance.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import performance.analysis.array.ForLoopCopyAnalyze;
+import performance.analysis.array.SystemArrayCopyAnalyze;
 import performance.analysis.collection.ArrayListContainsAnalyze;
 import performance.analysis.collection.HashSetContainsAnalyze;
 import performance.analysis.stream.EnhancedForLoopAnalyze;
@@ -24,6 +26,7 @@ public class AnalyzeController {
     private static final int LIST_ITERATIONS = 100_000;
     private static final int STREAM_ITERATIONS = 100_000;
     private static final int SEARCH_ITERATIONS = 50_000;
+    private static final int COPY_ITERATIONS = 50_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -45,6 +48,7 @@ public class AnalyzeController {
         menuActions.put(3, this::runListSequentialInsertAnalyzes);
         menuActions.put(4, this::runStreamAnalyzes);
         menuActions.put(5, this::runCollectionContainsAnalyzes);
+        menuActions.put(6, this::runArrayCopyAnalyzes);
     }
 
     public void run() {
@@ -108,6 +112,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("5. ArrayList.contains vs. HashSet.contains");
         AnalyzeResult result1 = executeAndPrint(new ArrayListContainsAnalyze(), SEARCH_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new HashSetContainsAnalyze(), SEARCH_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runArrayCopyAnalyzes() {
+        outputView.printAnalyzeStart("6. For Loop vs. System.arraycopy (배열 대량 복사)");
+        AnalyzeResult result1 = executeAndPrint(new ForLoopCopyAnalyze(), COPY_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new SystemArrayCopyAnalyze(), COPY_ITERATIONS);
         printComparison(result1, result2);
     }
 
