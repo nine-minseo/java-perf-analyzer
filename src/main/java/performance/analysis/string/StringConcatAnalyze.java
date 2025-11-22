@@ -12,10 +12,10 @@ public class StringConcatAnalyze extends BasePerformanceAnalyze {
     }
 
     @Override
-    protected void execute(long iterations) {
+    protected void execute(int iterations) {
         String emptyString = "";
 
-        for (long i = 0; i < iterations; i++) {
+        for (int i = 0; i < iterations; i++) {
             emptyString += APPEND_STRING;
         }
     }

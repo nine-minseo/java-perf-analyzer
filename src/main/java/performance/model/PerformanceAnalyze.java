@@ -3,5 +3,5 @@ package performance.model;
 public interface PerformanceAnalyze {
     String getAnalyzeName();
 
-    AnalyzeResult runAnalyze(long iterations);
+    AnalyzeResult runAnalyze(int iterations);
 }

@@ -12,10 +12,10 @@ public class StringBuilderAppendAnalyze extends BasePerformanceAnalyze {
     }
 
     @Override
-    protected void execute(long iterations) {
+    protected void execute(int iterations) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (long i = 0; i < iterations; i++) {
+        for (int i = 0; i < iterations; i++) {
             stringBuilder.append(APPEND_STRING);
         }
     }

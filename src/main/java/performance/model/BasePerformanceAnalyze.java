@@ -4,7 +4,7 @@ public abstract class BasePerformanceAnalyze implements PerformanceAnalyze {
     private static final int WARM_UP_ITERATIONS = 1_000;
 
     @Override
-    public final AnalyzeResult runAnalyze(long iterations) {
+    public final AnalyzeResult runAnalyze(int iterations) {
         warmUp();
         long durationNano = measure(iterations);
         return new AnalyzeResult(getAnalyzeName(), durationNano, iterations);
@@ -14,7 +14,7 @@ public abstract class BasePerformanceAnalyze implements PerformanceAnalyze {
         execute(WARM_UP_ITERATIONS);
     }
 
-    private long measure(long iterations) {
+    private long measure(int iterations) {
         long startTime = System.nanoTime();
         execute(iterations);
         long endTime = System.nanoTime();
@@ -22,5 +22,5 @@ public abstract class BasePerformanceAnalyze implements PerformanceAnalyze {
         return endTime - startTime;
     }
 
-    protected abstract void execute(long iterations);
+    protected abstract void execute(int iterations);
 }

@@ -16,8 +16,8 @@ import performance.view.OutputView;
 import performance.view.ResultFormatter;
 
 public class AnalyzeController {
-    private static final long DEFAULT_ITERATIONS = 50_000L;
-    private static final long LIST_ITERATIONS = 100_000L;
+    private static final int DEFAULT_ITERATIONS = 50_000;
+    private static final int LIST_ITERATIONS = 100_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -89,7 +89,7 @@ public class AnalyzeController {
         printComparison(result1, result2);
     }
 
-    private AnalyzeResult executeAndPrint(PerformanceAnalyze analyze, long iterations) {
+    private AnalyzeResult executeAndPrint(PerformanceAnalyze analyze, int iterations) {
         AnalyzeResult result = analyze.runAnalyze(iterations);
         String formattedResult = formatter.formatSingleResult(result);
         outputView.printAnalyzeResult(formattedResult);

@@ -13,10 +13,10 @@ public class ArrayListSequentialInsertAnalyze extends BasePerformanceAnalyze {
     }
 
     @Override
-    protected void execute(long iterations) {
-        List<Long> list = new ArrayList<>();
+    protected void execute(int iterations) {
+        List<Integer> list = new ArrayList<>();
 
-        for (long i = 0; i < iterations; i++) {
+        for (int i = 0; i < iterations; i++) {
             list.add(i);
         }
     }
