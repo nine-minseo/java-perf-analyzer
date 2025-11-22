@@ -3,6 +3,8 @@ package performance.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import performance.analysis.stream.EnhancedForLoopAnalyze;
+import performance.analysis.stream.StreamForEachAnalyze;
 import performance.model.AnalyzeResult;
 import performance.model.PerformanceAnalyze;
 import performance.analysis.string.StringBuilderAppendAnalyze;
@@ -18,6 +20,7 @@ import performance.view.ResultFormatter;
 public class AnalyzeController {
     private static final int DEFAULT_ITERATIONS = 50_000;
     private static final int LIST_ITERATIONS = 100_000;
+    private static final int STREAM_ITERATIONS = 100_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -37,6 +40,7 @@ public class AnalyzeController {
         menuActions.put(1, this::runStringAnalyzes);
         menuActions.put(2, this::runListMiddleInsertAnalyzes);
         menuActions.put(3, this::runListSequentialInsertAnalyzes);
+        menuActions.put(4, this::runStreamAnalyzes);
     }
 
     public void run() {
@@ -86,6 +90,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("3. ArrayList vs. LinkedList (순차 삽입)");
         AnalyzeResult result1 = executeAndPrint(new LinkedListSequentialInsertAnalyze(), LIST_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new ArrayListSequentialInsertAnalyze(), LIST_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runStreamAnalyzes() {
+        outputView.printAnalyzeStart("4. Stream.forEach vs. Enhanced For Loop");
+        AnalyzeResult result1 = executeAndPrint(new StreamForEachAnalyze(), STREAM_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new EnhancedForLoopAnalyze(), STREAM_ITERATIONS);
         printComparison(result1, result2);
     }
 
