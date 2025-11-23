@@ -7,6 +7,8 @@ import performance.analysis.array.ForLoopCopyAnalyze;
 import performance.analysis.array.SystemArrayCopyAnalyze;
 import performance.analysis.collection.ArrayListContainsAnalyze;
 import performance.analysis.collection.HashSetContainsAnalyze;
+import performance.analysis.list.ArrayListRemoveByIndexAnalyze;
+import performance.analysis.list.ArrayListRemoveByIteratorAnalyze;
 import performance.analysis.map.HashMapGetAnalyze;
 import performance.analysis.map.TreeMapGetAnalyze;
 import performance.analysis.regex.StringReplaceAllAnalyze;
@@ -33,6 +35,7 @@ public class AnalyzeController {
     private static final int COPY_ITERATIONS = 50_000;
     private static final int MAP_ITERATIONS = 100_000;
     private static final int REGEX_ITERATIONS = 100_000;
+    private static final int REMOVE_ITERATIONS = 20_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -57,6 +60,7 @@ public class AnalyzeController {
         menuActions.put(6, this::runArrayCopyAnalyzes);
         menuActions.put(7, this::runMapGetAnalyzes);
         menuActions.put(8, this::runStringReplaceAnalyzes);
+        menuActions.put(9, this::runListRemoveAnalyzes);
     }
 
     public void run() {
@@ -141,6 +145,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("8. replaceAll vs. replace (단순 문자열 치환)");
         AnalyzeResult result1 = executeAndPrint(new StringReplaceAllAnalyze(), REGEX_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new StringReplaceAnalyze(), REGEX_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runListRemoveAnalyzes() {
+        outputView.printAnalyzeStart("9. Index vs. Iterator (List 반복 중 삭제)");
+        AnalyzeResult result1 = executeAndPrint(new ArrayListRemoveByIndexAnalyze(), REMOVE_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new ArrayListRemoveByIteratorAnalyze(), REMOVE_ITERATIONS);
         printComparison(result1, result2);
     }
 
