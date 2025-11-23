@@ -9,6 +9,8 @@ import performance.analysis.collection.ArrayListContainsAnalyze;
 import performance.analysis.collection.HashSetContainsAnalyze;
 import performance.analysis.map.HashMapGetAnalyze;
 import performance.analysis.map.TreeMapGetAnalyze;
+import performance.analysis.regex.StringReplaceAllAnalyze;
+import performance.analysis.regex.StringReplaceAnalyze;
 import performance.analysis.stream.EnhancedForLoopAnalyze;
 import performance.analysis.stream.StreamForEachAnalyze;
 import performance.model.AnalyzeResult;
@@ -30,6 +32,7 @@ public class AnalyzeController {
     private static final int SEARCH_ITERATIONS = 50_000;
     private static final int COPY_ITERATIONS = 50_000;
     private static final int MAP_ITERATIONS = 100_000;
+    private static final int REGEX_ITERATIONS = 100_000;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -53,6 +56,7 @@ public class AnalyzeController {
         menuActions.put(5, this::runCollectionContainsAnalyzes);
         menuActions.put(6, this::runArrayCopyAnalyzes);
         menuActions.put(7, this::runMapGetAnalyzes);
+        menuActions.put(8, this::runStringReplaceAnalyzes);
     }
 
     public void run() {
@@ -130,6 +134,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("7. TreeMap vs. HashMap (키 기반 Map 조회)");
         AnalyzeResult result1 = executeAndPrint(new TreeMapGetAnalyze(), MAP_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new HashMapGetAnalyze(), MAP_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runStringReplaceAnalyzes() {
+        outputView.printAnalyzeStart("8. replaceAll vs. replace (단순 문자열 치환)");
+        AnalyzeResult result1 = executeAndPrint(new StringReplaceAllAnalyze(), REGEX_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new StringReplaceAnalyze(), REGEX_ITERATIONS);
         printComparison(result1, result2);
     }
 
