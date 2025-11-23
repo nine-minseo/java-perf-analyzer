@@ -3,6 +3,9 @@ package performance.view;
 import performance.model.AnalyzeResult;
 
 public class ResultFormatter {
+    private static final int MAX_BAR_LENGTH = 50;
+    private static final String BLOCK_CHAR = "█";
+
     public String formatSingleResult(AnalyzeResult result) {
         String timeString = formatTime(result.getDurationMs());
 
@@ -23,8 +26,31 @@ public class ResultFormatter {
 
         double multiple = slowTime / fastTime;
 
-        return String.format("[분석 결과] %s 방식이 %s 방식보다 약 %.2f배 더 빠릅니다.",
-                fast.getAnalyzeName(), slow.getAnalyzeName(), multiple);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(String.format("[분석 결과] %s 방식이 %s 방식보다 약 %.2f배 더 빠릅니다",
+                fast.getAnalyzeName(), slow.getAnalyzeName(), multiple));
+
+        stringBuilder.append("\n\n[성능 시각화]\n");
+        stringBuilder.append(drawGraph(slow, slowTime, slowTime));
+        stringBuilder.append("\n");
+        stringBuilder.append(drawGraph(fast, fastTime, slowTime));
+
+        return stringBuilder.toString();
+    }
+
+    private String drawGraph(AnalyzeResult result, double targetTime, double standardTime) {
+        double ratio = targetTime / standardTime;
+        int barLength = (int) (ratio * MAX_BAR_LENGTH);
+
+        if (barLength == 0 && targetTime > 0) {
+            barLength = 1;
+        }
+
+        return String.format("%-30s | %s %s",
+                result.getAnalyzeName(),
+                BLOCK_CHAR.repeat(barLength),
+                formatTime(targetTime));
     }
 
     private String formatTime(double durationMs) {
