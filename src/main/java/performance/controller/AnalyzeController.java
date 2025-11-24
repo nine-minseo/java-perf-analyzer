@@ -29,14 +29,10 @@ import performance.view.OutputView;
 import performance.view.ResultFormatter;
 
 public class AnalyzeController {
-    private static final int DEFAULT_ITERATIONS = 50_000;
-    private static final int LIST_ITERATIONS = 100_000;
-    private static final int STREAM_ITERATIONS = 1_000;
-    private static final int SEARCH_ITERATIONS = 50_000;
-    private static final int COPY_ITERATIONS = 50_000;
-    private static final int MAP_ITERATIONS = 100_000;
-    private static final int REGEX_ITERATIONS = 100_000;
-    private static final int REMOVE_ITERATIONS = 20_000;
+    private static final String GUIDE_VERY_SLOW = "[가이드] 매우 느린 작업(O(N^2))입니다. \n→ 추천: 10,000 ~ 50,000";
+    private static final String GUIDE_SLOW = "[가이드] 느린 작업(O(N))입니다. \n→ 추천: 50,000 ~ 100,000";
+    private static final String GUIDE_FAST = "[가이드] 매우 빠른 작업입니다. \n→ 추천: 100,000 ~ 1,000,000 이상";
+    private static final String GUIDE_STREAM = "[가이드] 오버헤드를 확인하는 작업입니다. \n → 1,000(오버헤드 큼) vs 1,000,000(병렬 효과)";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -95,72 +91,69 @@ public class AnalyzeController {
     }
 
     private void runStringAnalyzes() {
-        outputView.printAnalyzeStart("1. String (+) vs. StringBuilder");
-        AnalyzeResult result1 = executeAndPrint(new StringConcatAnalyze(), DEFAULT_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new StringBuilderAppendAnalyze(), DEFAULT_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("1. String (+) vs. StringBuilder", GUIDE_VERY_SLOW,
+                new StringConcatAnalyze(), new StringBuilderAppendAnalyze());
     }
 
     private void runListMiddleInsertAnalyzes() {
-        outputView.printAnalyzeStart("2. ArrayList vs. LinkedList (중간 삽입)");
-        AnalyzeResult result1 = executeAndPrint(new ArrayListMiddleInsertAnalyze(), LIST_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new LinkedListMiddleInsertAnalyze(), LIST_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("2. ArrayList vs. LinkedList (중간 삽입)", GUIDE_VERY_SLOW,
+                new ArrayListMiddleInsertAnalyze(), new LinkedListMiddleInsertAnalyze());
     }
 
     private void runListSequentialInsertAnalyzes() {
-        outputView.printAnalyzeStart("3. ArrayList vs. LinkedList (순차 삽입)");
-        AnalyzeResult result1 = executeAndPrint(new LinkedListSequentialInsertAnalyze(), LIST_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new ArrayListSequentialInsertAnalyze(), LIST_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("3. ArrayList vs. LinkedList (순차 삽입)", GUIDE_FAST,
+                new LinkedListSequentialInsertAnalyze(), new ArrayListSequentialInsertAnalyze());
     }
 
     private void runStreamAnalyzes() {
-        outputView.printAnalyzeStart("4. Stream.forEach vs. Enhanced For Loop");
-        AnalyzeResult result1 = executeAndPrint(new StreamForEachAnalyze(), STREAM_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new EnhancedForLoopAnalyze(), STREAM_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("4. Stream.forEach vs. Enhanced For Loop", GUIDE_FAST,
+                new StreamForEachAnalyze(), new EnhancedForLoopAnalyze());
     }
 
     private void runCollectionContainsAnalyzes() {
-        outputView.printAnalyzeStart("5. ArrayList.contains vs. HashSet.contains");
-        AnalyzeResult result1 = executeAndPrint(new ArrayListContainsAnalyze(), SEARCH_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new HashSetContainsAnalyze(), SEARCH_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("5. ArrayList.contains vs. HashSet.contains", GUIDE_SLOW,
+                new ArrayListContainsAnalyze(), new HashSetContainsAnalyze());
     }
 
     private void runArrayCopyAnalyzes() {
-        outputView.printAnalyzeStart("6. For Loop vs. System.arraycopy (배열 대량 복사)");
-        AnalyzeResult result1 = executeAndPrint(new ForLoopCopyAnalyze(), COPY_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new SystemArrayCopyAnalyze(), COPY_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("6. For Loop vs. System.arraycopy (배열 대량 복사)", GUIDE_FAST,
+                new ForLoopCopyAnalyze(), new SystemArrayCopyAnalyze());
     }
 
     private void runMapGetAnalyzes() {
-        outputView.printAnalyzeStart("7. TreeMap vs. HashMap (키 기반 Map 조회)");
-        AnalyzeResult result1 = executeAndPrint(new TreeMapGetAnalyze(), MAP_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new HashMapGetAnalyze(), MAP_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("7. TreeMap vs. HashMap (키 기반 Map 조회)", GUIDE_FAST,
+                new TreeMapGetAnalyze(), new HashMapGetAnalyze());
     }
 
     private void runStringReplaceAnalyzes() {
-        outputView.printAnalyzeStart("8. replaceAll vs. replace (단순 문자열 치환)");
-        AnalyzeResult result1 = executeAndPrint(new StringReplaceAllAnalyze(), REGEX_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new StringReplaceAnalyze(), REGEX_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("8. replaceAll vs. replace (단순 문자열 치환)", GUIDE_FAST,
+                new StringReplaceAllAnalyze(), new StringReplaceAnalyze());
     }
 
     private void runListRemoveAnalyzes() {
-        outputView.printAnalyzeStart("9. Index vs. Iterator (List 반복 중 삭제)");
-        AnalyzeResult result1 = executeAndPrint(new ArrayListRemoveByIndexAnalyze(), REMOVE_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new ArrayListRemoveByIteratorAnalyze(), REMOVE_ITERATIONS);
-        printComparison(result1, result2);
+        processAnalysis("9. Index vs. Iterator (List 반복 중 삭제)", GUIDE_VERY_SLOW,
+                new ArrayListRemoveByIndexAnalyze(), new ArrayListRemoveByIteratorAnalyze());
     }
 
     private void runParallelStreamAnalyzes() {
-        outputView.printAnalyzeStart("10. Stream vs. Parallel Stream (병렬 처리 오버헤드)");
-        AnalyzeResult result1 = executeAndPrint(new StreamForEachAnalyze(), STREAM_ITERATIONS);
-        AnalyzeResult result2 = executeAndPrint(new ParallelStreamAnalyze(), STREAM_ITERATIONS);
+        processAnalysis("10. Stream vs. Parallel Stream (병렬 처리 오버헤드)", GUIDE_STREAM,
+                new StreamForEachAnalyze(), new ParallelStreamAnalyze());
+    }
+
+    private void processAnalysis(String title, String guide, PerformanceAnalyze analyze1, PerformanceAnalyze analyze2) {
+        outputView.printAnalyzeStart(title);
+
+        int iterations;
+        try {
+            iterations = inputView.readInputIterations(guide);
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return;
+        }
+
+        AnalyzeResult result1 = executeAndPrint(analyze1, iterations);
+        AnalyzeResult result2 = executeAndPrint(analyze2, iterations);
+
         printComparison(result1, result2);
     }
 
