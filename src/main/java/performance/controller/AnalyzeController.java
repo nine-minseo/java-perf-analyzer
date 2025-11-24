@@ -1,5 +1,6 @@
 package performance.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import performance.analysis.list.ArrayListMiddleInsertAnalyze;
 import performance.analysis.list.ArrayListSequentialInsertAnalyze;
 import performance.analysis.list.LinkedListMiddleInsertAnalyze;
 import performance.analysis.list.LinkedListSequentialInsertAnalyze;
+import performance.util.FileSaver;
 import performance.view.InputView;
 import performance.view.OutputView;
 import performance.view.ResultFormatter;
@@ -38,11 +40,15 @@ public class AnalyzeController {
     private final OutputView outputView;
     private final Map<Integer, Runnable> menuActions;
     private final ResultFormatter formatter;
+    private final FileSaver fileSaver;
+    private final StringBuilder sessionHistory;
 
     public AnalyzeController(InputView inputView, OutputView outputView, ResultFormatter formatter) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.formatter = formatter;
+        this.fileSaver = new FileSaver();
+        this.sessionHistory = new StringBuilder();
         this.menuActions = new HashMap<>();
 
         initializeMenuActions();
@@ -68,6 +74,7 @@ public class AnalyzeController {
                 int userChoice = inputView.readMenuChoice();
 
                 if (userChoice == 0) {
+                    saveSessionReportIfNotEmpty();
                     outputView.printProgramExit();
                     break;
                 }
@@ -154,7 +161,10 @@ public class AnalyzeController {
         AnalyzeResult result1 = executeAndPrint(analyze1, iterations);
         AnalyzeResult result2 = executeAndPrint(analyze2, iterations);
 
-        printComparison(result1, result2);
+        String comparison = formatter.formatComparison(result1, result2);
+        outputView.printAnalyzeResult(comparison);
+
+        appendToHistory(title, result1, result2, comparison);
     }
 
     private AnalyzeResult executeAndPrint(PerformanceAnalyze analyze, int iterations) {
@@ -164,8 +174,28 @@ public class AnalyzeController {
         return result;
     }
 
-    private void printComparison(AnalyzeResult result1, AnalyzeResult result2) {
-        String comparison = formatter.formatComparison(result1, result2);
-        outputView.printAnalyzeResult(comparison);
+    private void appendToHistory(String title, AnalyzeResult r1, AnalyzeResult r2, String comparison) {
+        sessionHistory.append("## ").append(title).append("\n\n");
+        sessionHistory.append(formatter.formatSingleResult(r1)).append("\n");
+        sessionHistory.append(formatter.formatSingleResult(r2)).append("\n");
+        sessionHistory.append(comparison).append("\n");
+        sessionHistory.append("\n--------------------------------------------------\n\n");
+    }
+
+    private void saveSessionReportIfNotEmpty() {
+        if (sessionHistory.length() == 0) {
+            return;
+        }
+
+        System.out.println("\n모든 분석이 종료되었습니다.");
+
+        if (inputView.confirmSave()) {
+            try {
+                String path = fileSaver.save("Session_Report", sessionHistory.toString());
+                System.out.println("전체 분석 결과가 저장되었습니다: " + path);
+            } catch (IOException e) {
+                outputView.printError("파일 저장 중 오류가 발생했습니다: " + e.getMessage());
+            }
+        }
     }
 }

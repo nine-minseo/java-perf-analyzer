@@ -54,6 +54,25 @@ public class InputView {
         }
     }
 
+    public boolean confirmSave() {
+        while (true) {
+            System.out.print("\n결과를 파일로 저장하시겠습니까? (y/n): ");
+            if (!scanner.hasNextLine()) {
+                return false;
+            }
+
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("y")) {
+                return true;
+            }
+            if (input.equals("n")) {
+                return false;
+            }
+
+            System.out.println("'y' 또는 'n'만 입력해주세요.");
+        }
+    }
+
     public void close() {
         scanner.close();
     }
