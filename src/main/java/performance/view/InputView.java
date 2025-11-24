@@ -10,7 +10,7 @@ public class InputView {
     }
 
     public int readMenuChoice() {
-        System.out.print("분석할 항목의 번호를 입력하세요.: ");
+        System.out.print("분석할 항목의 번호를 입력하세요: ");
 
         if (!scanner.hasNextLine()) {
             throw new IllegalStateException("입력 스트림이 종료되었습니다.");
