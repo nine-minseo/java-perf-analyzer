@@ -16,6 +16,7 @@ public class OutputView {
         System.out.println("7. Map Key 조회 성능 비교 (TreeMap vs HashMap)");
         System.out.println("8. 문자열 치환 성능 비교 (replaceAll vs replace)");
         System.out.println("9. List 반복 중 삭제 비교 (Index vs Iterator)");
+        System.out.println("10. 병렬 스트림 성능 비교 (Stream vs Parallel Stream)");
         System.out.println("0. 종료");
         System.out.println("----------------------------------------");
         System.out.print("번호 선택: ");

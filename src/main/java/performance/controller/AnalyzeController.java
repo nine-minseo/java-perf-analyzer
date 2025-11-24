@@ -14,6 +14,7 @@ import performance.analysis.map.TreeMapGetAnalyze;
 import performance.analysis.regex.StringReplaceAllAnalyze;
 import performance.analysis.regex.StringReplaceAnalyze;
 import performance.analysis.stream.EnhancedForLoopAnalyze;
+import performance.analysis.stream.ParallelStreamAnalyze;
 import performance.analysis.stream.StreamForEachAnalyze;
 import performance.model.AnalyzeResult;
 import performance.model.PerformanceAnalyze;
@@ -30,7 +31,7 @@ import performance.view.ResultFormatter;
 public class AnalyzeController {
     private static final int DEFAULT_ITERATIONS = 50_000;
     private static final int LIST_ITERATIONS = 100_000;
-    private static final int STREAM_ITERATIONS = 100_000;
+    private static final int STREAM_ITERATIONS = 1_000;
     private static final int SEARCH_ITERATIONS = 50_000;
     private static final int COPY_ITERATIONS = 50_000;
     private static final int MAP_ITERATIONS = 100_000;
@@ -61,6 +62,7 @@ public class AnalyzeController {
         menuActions.put(7, this::runMapGetAnalyzes);
         menuActions.put(8, this::runStringReplaceAnalyzes);
         menuActions.put(9, this::runListRemoveAnalyzes);
+        menuActions.put(10, this::runParallelStreamAnalyzes);
     }
 
     public void run() {
@@ -152,6 +154,13 @@ public class AnalyzeController {
         outputView.printAnalyzeStart("9. Index vs. Iterator (List 반복 중 삭제)");
         AnalyzeResult result1 = executeAndPrint(new ArrayListRemoveByIndexAnalyze(), REMOVE_ITERATIONS);
         AnalyzeResult result2 = executeAndPrint(new ArrayListRemoveByIteratorAnalyze(), REMOVE_ITERATIONS);
+        printComparison(result1, result2);
+    }
+
+    private void runParallelStreamAnalyzes() {
+        outputView.printAnalyzeStart("10. Stream vs. Parallel Stream (병렬 처리 오버헤드)");
+        AnalyzeResult result1 = executeAndPrint(new StreamForEachAnalyze(), STREAM_ITERATIONS);
+        AnalyzeResult result2 = executeAndPrint(new ParallelStreamAnalyze(), STREAM_ITERATIONS);
         printComparison(result1, result2);
     }
 
