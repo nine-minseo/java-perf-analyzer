@@ -102,7 +102,21 @@ List를 순회하며 요소를 삭제할 때, 인덱스를 직접 다루는 방�
 - [x]  **Parallel Stream:** 멀티 스레드를 사용하여 작업을 병렬로 N번 처리하며 시간을 측정한다.
 - [x]  두 방식의 성능 차이를 시각화하여 출력한다.
 
-## 2.3. 결과 출력 및 비교
+## 2.3. 성능 비교 항목 분석 요약
+| 번호 | 비교 주제 | Slow (비효율) | Fast (효율) | 분석 키워드 |
+| --- | --- | --- | --- | --- |
+| **1** | **문자열 연결** | String `+` | StringBuilder | 불변 객체(Immutable), GC 오버헤드 |
+| **2** | **List 중간 삽입** | LinkedList | ArrayList | **CPU 캐시 지역성(Locality)**, 메모리 구조 |
+| **3** | **List 순차 삽입** | LinkedList | ArrayList | 노드 객체 생성 비용, 메모리 파편화 |
+| **4** | **반복(Iteration)** | Stream | Enhanced For-loop | 파이프라인 비용, JIT 컴파일러 최적화 |
+| **5** | **요소 탐색** | ArrayList (O(N)) | HashSet (O(1)) | 시간 복잡도, 해싱(Hashing) 알고리즘 |
+| **6** | **배열 복사** | For-loop | System.arraycopy | **JNI(Java Native Interface)**, Intrinsic 최적화 |
+| **7** | **Map 조회** | TreeMap (O(\log N)) | HashMap (O(1)) | 이진 탐색 트리 vs 해시 테이블 |
+| **8** | **문자열 치환** | replaceAll (Regex) | replace (Literal) | **정규표현식(Regex)** 엔진 구동 오버헤드 |
+| **9** | **List 삭제** | Loop index | Iterator | 인덱스 관리 실수 방지, **안전성(Safety)** |
+| **10** | **병렬 처리** | Parallel Stream | Stream | **ForkJoinPool**, 스레드 컨텍스트 스위칭 비용 |
+
+## 2.4. 결과 출력 및 비교
 - [x]  나노초(ns)로 측정된 시간을 가독성 좋게 1,000ms 미만은 밀리초(ms)로, 1,000ms 이상은 초(s)로 변환하여 출력한다.
 - [x]  반복 횟수와 소요 시간 출력 시 천 단위 구분 기호(,)를 적용하여 가독성을 높인다.
 - [x]  (느린 시간 / 빠른 시간) 공식을 사용하여 성능 차이 배수를 계산한 뒤, "A가 B보다 약 XX.XX배 빠릅니다" 형식으로 비교 결과를 출력한다.
