@@ -44,3 +44,6 @@ bin/
 
 ### Log files ###
 *.log
+
+### Generated Reports ###
+reports/
