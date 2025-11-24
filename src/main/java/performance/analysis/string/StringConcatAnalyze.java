@@ -3,7 +3,7 @@ package performance.analysis.string;
 import performance.model.BasePerformanceAnalyze;
 
 public class StringConcatAnalyze extends BasePerformanceAnalyze {
-    private static final String ANALYZE_NAME = "String 덧셈";
+    private static final String ANALYZE_NAME = "String Concatenation";
     private static final String APPEND_STRING = "a";
 
     @Override
