@@ -2,11 +2,9 @@ package performance.view;
 
 public class OutputView {
     public void printMainMenu() {
-        System.out.println("\n========================================");
+        System.out.println("\n=========================================================");
         System.out.println("Java Performance Analyzer");
-        System.out.println("========================================");
-        System.out.println("분석할 항목의 번호를 입력하세요.");
-        System.out.println("----------------------------------------");
+        System.out.println("=========================================================");
         System.out.println("1. String 연결 성능 비교 (String vs StringBuilder)");
         System.out.println("2. List 중간 삽입 성능 비교 (ArrayList vs LinkedList)");
         System.out.println("3. List 순차 삽입 성능 비교 (ArrayList vs LinkedList)");
@@ -18,8 +16,7 @@ public class OutputView {
         System.out.println("9. List 반복 중 삭제 비교 (Index vs Iterator)");
         System.out.println("10. 병렬 스트림 성능 비교 (Stream vs Parallel Stream)");
         System.out.println("0. 종료");
-        System.out.println("----------------------------------------");
-        System.out.print("번호 선택: ");
+        System.out.println("=========================================================");
     }
 
     public void printProgramExit() {
