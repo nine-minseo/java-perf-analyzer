@@ -5,6 +5,12 @@ import performance.model.AnalyzeResult;
 public class ResultFormatter {
     private static final int MAX_BAR_LENGTH = 50;
     private static final String BLOCK_CHAR = "█";
+    private static final int LABEL_WIDTH = 30;
+
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
 
     public String formatSingleResult(AnalyzeResult result) {
         String timeString = formatTime(result.getDurationMs());
@@ -28,18 +34,20 @@ public class ResultFormatter {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(String.format("[분석 결과] %s 방식이 %s 방식보다 약 %.2f배 더 빠릅니다",
-                fast.getAnalyzeName(), slow.getAnalyzeName(), multiple));
+        stringBuilder.append(String.format("[분석 결과] %s[%s]%s 방식이 %s[%s]%s 방식보다 약 %s%.2f배%s 더 빠릅니다",
+                GREEN, fast.getAnalyzeName(), RESET,
+                RED, slow.getAnalyzeName(), RESET,
+                YELLOW, multiple, RESET));
 
         stringBuilder.append("\n\n[성능 시각화]\n");
-        stringBuilder.append(drawGraph(slow, slowTime, slowTime));
+        stringBuilder.append(drawGraph(slow, slowTime, slowTime, RED));
         stringBuilder.append("\n");
-        stringBuilder.append(drawGraph(fast, fastTime, slowTime));
+        stringBuilder.append(drawGraph(fast, fastTime, slowTime, GREEN));
 
         return stringBuilder.toString();
     }
 
-    private String drawGraph(AnalyzeResult result, double targetTime, double standardTime) {
+    private String drawGraph(AnalyzeResult result, double targetTime, double standardTime, String color) {
         double ratio = targetTime / standardTime;
         int barLength = (int) (ratio * MAX_BAR_LENGTH);
 
@@ -47,9 +55,11 @@ public class ResultFormatter {
             barLength = 1;
         }
 
-        return String.format("%-30s | %s %s",
-                result.getAnalyzeName(),
-                BLOCK_CHAR.repeat(barLength),
+        String label = String.format("%-" + LABEL_WIDTH + "s", result.getAnalyzeName());
+
+        return String.format("%s | %s%s%s %s",
+                label,
+                color, BLOCK_CHAR.repeat(barLength), RESET,
                 formatTime(targetTime));
     }
 
